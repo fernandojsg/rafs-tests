@@ -58,7 +58,7 @@ function mainLoop() {
 
   if (--framesToSwitchVR < 0) {
     presentingVR = !presentingVR;
-    framesToSwitchVR = 5;
+    framesToSwitchVR = 10;
     if (presentingVR) {
       console.log('>>>>>>>>>>>>>>>>>>> Entering VR');
       requestAnimationFrame(input);
