@@ -8,8 +8,7 @@ function doingPost() {
 
 var counter = 0;
 var times = 70;
-var referenceIndex = null;
-var prevReferenceIndex = null;
+var prevReference = null;
 var rafs = [];
 
 /// RAF HOOK
@@ -20,31 +19,29 @@ window.requestAnimationFrame = function(callback) {
   }
 
   function hookedCallback(p) {
-    if (typeof callback.rafIndex === 'undefined') {
-      callback.rafIndex = counter++;
-      rafs.push(callback.rafIndex);
+    if (rafs.indexOf(callback) === -1) {
+      rafs.push(callback);
     }
 
-    referenceIndex = rafs[0];
-
-    if (referenceIndex === callback.rafIndex) {
+    if (rafs[0] === callback) {
       doingPre();
     }
 
     callback(performance.now());
 
     // If reaching the last raf, do the post
-    if (rafs[ rafs.length - 1 ] === callback.rafIndex) {
+    if (rafs[ rafs.length - 1 ] === callback) {
       doingPost();
     }
 
     // If the previous raf is the same as now, just reset the list
     // in case we have stopped calling some of the previous rafs
-    if (prevReferenceIndex === callback.rafIndex) {
-      rafs = [callback.rafIndex];
+    if (prevReference === callback) {
+      rafs = [callback];
     }
-    prevReferenceIndex = callback.rafIndex;
+    prevReference = callback;
   }
+
   return window.realRequestAnimationFrame(hookedCallback);
 }
 
