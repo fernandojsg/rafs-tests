@@ -7,7 +7,7 @@ function doingPost() {
 }
 
 var counter = 0;
-var times = 50;
+var times = 70;
 var referenceIndex = null;
 var prevReferenceIndex = null;
 var rafs = [];
